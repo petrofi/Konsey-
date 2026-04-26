@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Konsey Tartışma Sistemi | Çok Ajanlı AI Tartışma Platformu</title>
+    <meta name="description" content="Çok ajanlı yapay zeka tartışma platformu - Claude, Gemini ve Grok ile yapılandırılmış, derinlemesine tartışmalar">
+    <meta name="keywords" content="AI, yapay zeka, tartışma, multi-agent, Claude, Gemini, Grok">
+    <meta name="theme-color" content="#0a0a0f">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚖️</text></svg>">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Konsey — Multi-Agent AI Discussion Platform">
+    <meta property="og:description" content="Structured debates between Claude, Gemini & Grok with cross-critique and arbiter evaluation">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="tr_TR">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body role="application" aria-label="Konsey Tartışma Sistemi">
+    <div class="app-container" role="main">
+        <!-- Geçmiş Sohbetler Toggle -->
+        <button class="history-toggle" id="historyToggle" onclick="toggleHistory()" title="Geçmiş Sohbetleri Göster">
+            📜 Geçmiş Sohbetler
+        </button>
+
+        <!-- Geçmiş Sohbetler Paneli -->
+        <div class="history-panel hidden" id="historyPanel">
+            <div class="history-header">
+                <h3>📜 Tartışma Geçmişi</h3>
+                <button class="history-close" onclick="toggleHistory()">✕</button>
+            </div>
+            <div class="history-content" id="historyContent">
+                <div class="empty-history">Henüz tartışma yok</div>
+            </div>
+            <div class="history-actions">
+                <button class="history-btn clear-history-btn" onclick="clearHistory()">
+                    🗑️ Tümünü Sil
+                </button>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <header class="header" role="banner">
+            <div class="header-content">
+                <h1 aria-label="Konsey Tartışma Sistemi">⚖️ Konsey Tartışma Sistemi</h1>
+                <p>Çok ajanlı yapay zeka ile yapılandırılmış tartışma platformu</p>
+            </div>
+        </header>
+
+        <!-- Kullanıcı Girdi Alanı -->
+        <section class="input-section" role="region" aria-label="Tartışma Başlatma">
+            <div class="input-container">
+                <div class="input-wrapper">
+                    <label for="userInput" class="sr-only">Tartışılacak Konu</label>
+                    <textarea 
+                        class="user-input" 
+                        id="userInput" 
+                        placeholder="Tartışılmasını istediğiniz konuyu veya soruyu buraya yazın..."
+                        rows="4"
+                        autocomplete="off"
+                        spellcheck="true"
+                    ></textarea>
+                    <div class="input-actions">
+                        <button class="start-btn" id="startBtn" aria-label="Tartışmayı başlat" onclick="startDiscussion()">
+                            🚀 Tartışmayı Başlat
+                        </button>
+                        <button class="clear-btn" id="clearBtn" aria-label="Metni temizle" onclick="clearInput()">
+                            🗑️ Temizle
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Aşama Göstergesi -->
+        <div class="phase-indicator" id="phaseIndicator" role="progressbar" aria-label="Tartışma Aşaması Göstergesi">
+            <div class="phase-item" id="phase1" role="status">
+                <span class="phase-number" aria-hidden="true">1</span>
+                <span>Kullanıcı Girdisi</span>
+            </div>
+            <div class="phase-item" id="phase2" role="status">
+                <span class="phase-number" aria-hidden="true">2</span>
+                <span>İlk Görüşler</span>
+            </div>
+            <div class="phase-item" id="phase3" role="status">
+                <span class="phase-number" aria-hidden="true">3</span>
+                <span>Çapraz Eleştiri</span>
+            </div>
+            <div class="phase-item" id="phase4" role="status">
+                <span class="phase-number" aria-hidden="true">4</span>
+                <span>Revizyon</span>
+            </div>
+            <div class="phase-item" id="phase5" role="status">
+                <span class="phase-number" aria-hidden="true">⚖</span>
+                <span>Hakem</span>
+            </div>
+        </div>
+
+        <!-- Ana Panel Grid -->
+        <div class="council-grid" role="region" aria-label="Tartışma Panelleri" id="main-content">
+            <!-- Merkez Panel -->
+            <div class="panel center center-panel" id="centerPanel" role="article" aria-label="Merkez Panel - Özet ve Sorusu">
+                <div class="panel-header">
+                    <div class="agent-avatar" aria-hidden="true">⚖️</div>
+                    <div class="agent-info">
+                        <h3>MERKEZ METİN</h3>
+                        <span>Kullanıcı Sorusu & Tartışma Özeti</span>
+                    </div>
+                </div>
+                <div class="panel-content" id="centerContent">
+                    <div class="empty-state">
+                        <div class="empty-state-icon" aria-hidden="true">💭</div>
+                        <p>Tartışma başlatmak için yukarıdaki alana sorunuzu yazın</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Claude Paneli (Sol) -->
+            <div class="panel claude claude-panel" id="claudePanel" role="article" aria-label="Claude Paneli">
+                <div class="panel-header">
+                    <img src="assets/icons/claude.svg" alt="Claude" class="agent-avatar claude-logo" />
+                    <div class="agent-info">
+                        <h3>CLAUDE</h3>
+                        <span>Metodolog • Analitik & Temkinli</span>
+                    </div>
+                </div>
+                <div class="panel-content" id="claudeContent">
+                    <div class="empty-state">
+                        <div class="empty-state-icon" aria-hidden="true">🔬</div>
+                        <p>Mantık ve metodoloji odaklı analiz bekleniyor</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gemini Paneli (Sağ Üst) -->
+            <div class="panel gemini gemini-panel" id="geminiPanel" role="article" aria-label="Gemini Paneli">
+                <div class="panel-header">
+                    <img src="assets/icons/gemini.svg" alt="Gemini" class="agent-avatar gemini-logo" />
+                    <div class="agent-info">
+                        <h3>GEMINI</h3>
+                        <span>Sentetik Zihin • Yaratıcı & Sezgisel</span>
+                    </div>
+                </div>
+                <div class="panel-content" id="geminiContent">
+                    <div class="empty-state">
+                        <div class="empty-state-icon" aria-hidden="true">✨</div>
+                        <p>Bağlantı kurma ve büyük resim perspektifi bekleniyor</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grok Paneli (Sağ Alt) -->
+            <div class="panel grok grok-panel" id="grokPanel" role="article" aria-label="Grok Paneli">
+                <div class="panel-header">
+                    <img src="assets/icons/grok.svg" alt="Grok" class="agent-avatar grok-logo" />
+                    <div class="agent-info">
+                        <h3>GROK</h3>
+                        <span>Muhalif • Şüpheci & Keskin</span>
+                    </div>
+                </div>
+                <div class="panel-content" id="grokContent">
+                    <div class="empty-state">
+                        <div class="empty-state-icon" aria-hidden="true">🔥</div>
+                        <p>Provokatif sorular ve ters köşe yaklaşımı bekleniyor</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Summary Section -->
+        <section id="resultsSummary" class="results-summary hidden" role="region" aria-label="Tartışma Özeti">
+            <div class="summary-container">
+                <h2>📊 Tartışma Özeti</h2>
+                <div id="summaryContent"></div>
+                <div class="summary-actions">
+                    <button id="copyBtn" class="summary-btn copy-btn" onclick="copySummary()">
+                        📋 Özeti Kopyala
+                    </button>
+                    <button id="resetBtn" class="summary-btn reset-btn" onclick="resetDiscussion()">
+                        🔄 Yeni Tartışma Başlat
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer" role="contentinfo">
+            <div class="footer-content">
+                <p>Konsey Tartışma Sistemi • Epistemik kalite için çoğulcu düşünce</p>
+                <p class="footer-meta">
+                    <span>Geliştirilmiş AI Tartışma Motoru</span> • 
+                    <span><a href="#" onclick="showAbout()">Hakkında</a></span>
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/api-client.js"></script>
+    <script src="js/agents.js"></script>
+    <script src="js/discussion.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

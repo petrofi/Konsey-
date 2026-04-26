@@ -1,0 +1,51 @@
+{
+  "name": "konsey",
+  "version": "2.0.0",
+  "description": "Multi-agent AI discussion platform — structured debates between Claude, Gemini & Grok with cross-critique and arbiter evaluation",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "nodemon server/index.js",
+    "test": "echo \"No tests configured yet\" && exit 0",
+    "lint": "echo \"No linter configured yet\" && exit 0"
+  },
+  "keywords": [
+    "ai",
+    "multi-agent",
+    "discussion",
+    "debate",
+    "claude",
+    "gemini",
+    "grok",
+    "groq",
+    "nodejs",
+    "express",
+    "javascript"
+  ],
+  "author": "petrofi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/petrofi/konsey.git"
+  },
+  "bugs": {
+    "url": "https://github.com/petrofi/konsey/issues"
+  },
+  "homepage": "https://github.com/petrofi/konsey#readme",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.20.0",
+    "@google/generative-ai": "^0.3.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "groq-sdk": "^0.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}
