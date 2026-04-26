@@ -117,7 +117,7 @@ Discussion Complete → Copy & Share
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/petrofi/konsey.git
+git clone https://github.com/petrofi/Konsey-.git
 cd konsey
 
 # 2. Install dependencies

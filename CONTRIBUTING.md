@@ -22,7 +22,7 @@ This project adheres to the [Contributor Covenant Code of Conduct](.github/CODE_
 1. **Fork** the repository on GitHub
 2. **Clone** your fork locally:
    ```bash
-   git clone https://github.com/petrofi/konsey.git
+   git clone https://github.com/petrofi/Konsey-.git
    cd konsey
    ```
 3. **Install** dependencies:

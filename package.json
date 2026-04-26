@@ -26,12 +26,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/petrofi/konsey.git"
+    "url": "https://github.com/petrofi/Konsey-.git"
   },
   "bugs": {
-    "url": "https://github.com/petrofi/konsey/issues"
+    "url": "https://github.com/petrofi/Konsey-/issues"
   },
-  "homepage": "https://github.com/petrofi/konsey#readme",
+  "homepage": "https://github.com/petrofi/Konsey-#readme",
   "dependencies": {
     "@anthropic-ai/sdk": "^0.20.0",
     "@google/generative-ai": "^0.3.0",
