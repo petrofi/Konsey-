@@ -386,7 +386,7 @@ Tartışma Tarihi: ${new Date().toLocaleString('tr-TR')}
      * İçeriği formatla
      */
     formatContent(text) {
-        return text
+        return this.escapeHtml(text || '')
             .trim()
             .replace(/\n\s+/g, '\n')
             .replace(/\n{3,}/g, '\n\n')

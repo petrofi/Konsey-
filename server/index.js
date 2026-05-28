@@ -14,10 +14,16 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const ROOT_DIR = path.join(__dirname, '../');
 
 // Middleware
-app.use(express.json({ limit: '50mb' }));
-app.use(express.static(path.join(__dirname, '../')));
+app.use(express.json({ limit: process.env.JSON_BODY_LIMIT || '1mb' }));
+app.get('/', (req, res) => {
+    res.sendFile(path.join(ROOT_DIR, 'index.html'));
+});
+app.use('/css', express.static(path.join(ROOT_DIR, 'css'), { dotfiles: 'deny' }));
+app.use('/js', express.static(path.join(ROOT_DIR, 'js'), { dotfiles: 'deny' }));
+app.use('/assets', express.static(path.join(ROOT_DIR, 'assets'), { dotfiles: 'deny' }));
 app.use(cors({
     origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
     credentials: true
